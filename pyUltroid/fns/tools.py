@@ -16,8 +16,9 @@ from io import BytesIO
 from json.decoder import JSONDecodeError
 from traceback import format_exc
 
-from .. import LOGS
+from .. import *
 from ..exceptions import DependencyMissingError
+from .helper import bash, run_async
 
 try:
     import certifi
@@ -39,9 +40,6 @@ except ImportError:
     requests = None
 from telethon import Button
 from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
-
-from .. import *
-from .helper import bash, run_async
 
 if run_as_module:
     from ..dB.filestore_db import get_stored_msg, store_msg
@@ -409,6 +407,8 @@ async def get_paste(data: str, extension: str = "txt"):
 
 
 async def get_chatbot_reply(message):
+    from .. import ultroid_bot
+
     chatbot_base = "https://kukiapi.xyz/api/apikey=ULTROIDUSERBOT/Ultroid/{}/message={}"
     req_link = chatbot_base.format(
         ultroid_bot.me.first_name or "ultroid user",
